@@ -1,0 +1,26 @@
+Create table actor (id integer primary key, name text, current_age text);
+Insert into actor values (1, "Henry Cavill", 39);
+Insert into actor values (2, "Tyler Hoechlin", 35);
+Insert into actor values (3, "Christian Bale", 49);
+Insert into actor values (4, "Robert Pattinson", 36);
+Insert into actor values (5, "Edward Norton", 53);
+Insert into actor values (6, "Mark Ruffalo", 55);
+
+Create table first_appearance (id integer primary key, name text,year_released integer, lead_actor integer, character text);
+Insert into first_appearance values (1, "Man of Steel", 2013, 1, "Superman");
+Insert into first_appearance values (2, "Supergirl", 2016, 2, "Superman");
+Insert into first_appearance values (3, "Batman Begins", 2005, 3, "Batman");
+Insert into first_appearance values (4, "The Batman", 2022, 4, "Batman");
+Insert into first_appearance values (5, "The Incredible Hulk", 2008, 5, "Hulk");
+Insert into first_appearance values (6, "The Avengers", 2012, 6, "Hulk");
+
+Create table successor (id integer primary key, actor_1 integer, actor_2 integer);
+Insert into successor values (1,1,2);
+Insert into successor values (2,3,4);
+Insert into successor values (3,5,6);
+
+--Display the actor next to the role they performed 
+Select a.name, f.character from actor as a JOIN first_appearance as f ON a.id = f.lead_actor;
+
+--Display actors next to the one that succeeded them in that role
+Select a.name as Predecessor, b.name as Successor from successor JOIN actor a ON a.id = successor.actor_1 JOIN actor b ON b.id = successor.actor_2;
