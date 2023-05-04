@@ -22,5 +22,5 @@ Insert into successor values (3,5,6);
 --Display the actor next to the role they performed 
 Select a.name, f.character from actor as a JOIN first_appearance as f ON a.id = f.lead_actor;
 
---Display actors next to the one that succeeded them in that role
+--Display actors next to the one that succeeded them in their shared role
 Select a.name as Predecessor, b.name as Successor from successor JOIN actor a ON a.id = successor.actor_1 JOIN actor b ON b.id = successor.actor_2;
