@@ -1,0 +1,55 @@
+-- Display the artist with the most tracks to make it into the top 50 along with the number of tracks for that artist 
+Select artist_name
+,count(artist_name) tracks
+from BIT_DB.Spotifydata 
+group by artist_name
+order by count(artist_name) desc 
+limit 1;d
+
+-- Display the top 5 most danceable songs along their respective artist
+Select track_name
+,artist_name
+from BIT_DB.Spotifydata
+order by danceability desc
+limit 5;
+
+-- Of the top 5 most popular songs, what was their average danceability?
+Select avg(danceability) 
+from BIT_DB.Spotifydata
+where id 
+in (select id 
+from BIT_DB.Spotifydata 
+order by popularity desc 
+limit 5);
+
+-- What about the average energy for the top 5 most popular songs?
+Select avg(energy)
+from BIT_DB.Spotifydata
+where id
+in (select id 
+from BIT_DB.Spotifydata
+order by popularity desc
+limit 5);
+
+-- What was the average duration for the top 10 songs with the most acousticness?
+Select avg(duration_ms)
+from BIT_DB.Spotifydata
+where id 
+in (select id 
+from BIT_DB.Spotifydata
+order by acousticness desc
+limit 10); 
+
+-- Show songs that are not in a 4 time signature. Also show the artist and the time signature for each track.
+Select track_name
+,artist_name
+,time_signature
+from BIT_DB.Spotifydata
+where time_signature <> 4;
+
+--What was the most frequently used song key and how many times was it used?
+Select song_key, count(song_key) as frequency
+from BIT_DB.Spotifydata
+group by song_key
+order by count(song_key) desc
+limit 1;
