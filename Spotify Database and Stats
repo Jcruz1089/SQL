@@ -53,3 +53,17 @@ from BIT_DB.Spotifydata
 group by song_key
 order by count(song_key) desc
 limit 1;
+
+--Calculate the average popularity for the artists in the Spotify data table. Then, for every artist with an average popularity of 90 or above, show their name, their average popularity, and label them as a “Top Star”.
+With temptable
+as (
+select avg(s.popularity) as avg_popularity
+,s.artist_name 
+from Spotifydata as S
+group by s.artist_name
+)
+select artist_name 
+,avg_popularity
+,'Top Star' as tag 
+from temptable
+where avg_popularity >= 90;
