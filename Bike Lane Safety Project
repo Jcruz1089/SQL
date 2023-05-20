@@ -1,0 +1,23 @@
+-- Display the bike lanes that have an average safety rating of 4 or higher. Also include the average safety rating and a label them as "Safe Lane".
+With safe_lane_table
+as (
+select b.street
+,avg(safetyrating) as average_rating
+from CityBikeLanes as b
+group by b.street
+)
+select street
+,average_rating
+,'Safe Lane' as label
+from safe_lane_table
+where average_rating >= 4;
+
+-- Write a query that will show all bike lanes, both safety ratings for each lane, the average safety rating for each lane, and a label to suggest what should be done with the lane.
+Select street
+,safetyrating
+,avg(safetyrating) over (partition by street) as average_safety_rating
+,case when avg(safetyrating) over (partition by street) >= 4 then 'Leave As-Is'
+when avg(safetyrating) over (partition by street) < 2.5 then 'Remove'
+else 'Improvements Needed'
+end as 'Recommendation'
+from CityBikeLanes;
