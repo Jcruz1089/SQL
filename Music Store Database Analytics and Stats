@@ -1,0 +1,74 @@
+--Show tracks that were composed by at least one of the four members of Alice in Chains.
+Select Name
+from tracks
+where composer like '%Jerry Cantrell%'
+or composer like '%Layne Staley%'
+or composer like '%Michael Starr%'
+or composer like '%Sean Kinney%';
+
+--Show full names of customers, customer ID, and SupportRepId, for those whose SupportRepId was not 4.
+Select FirstName
+,LastName
+,CustomerId
+,SupportRepId 
+from customers 
+where SupportRepId <> 4;
+
+
+--Provide a query that shows the invoices associated with each sales agent.
+Select e.FirstName
+,e.LastName
+,i.InvoiceId
+from Employees as e 
+join Customers as c on c.SupportRepId = e.EmployeeId
+join Invoices as i on i.CustomerId = c.CustomerId;
+
+
+--How many Invoices were there by country?
+Select BillingCountry as Country
+,count(InvoiceID) as Invoice_Quantity
+from invoices
+group by BillingCountry;
+
+--Which country had the most invoices behind USA?
+Select BillingCountry as Country
+,count(InvoiceID) as Invoice_Quantity
+from invoices
+where BillingCountry <> 'USA'
+group by BillingCountry
+order by Invoice_Quantity desc
+limit 1;
+
+--Write a query that includes the purchased track name AND artist name with each invoice line ID.
+select a.Name as Artist
+,t.Name as Track
+,it.InvoiceLineId
+from invoice_items as it
+join tracks as t
+on it.TrackId = t.TrackId
+join albums as al
+on t.AlbumId = al.AlbumId
+join artists as a
+on al.ArtistId = a.ArtistId;
+
+--How much money did "The Best Of Buddy Guy - The Millenium Collection" raise?
+select sum(it.UnitPrice) as MoneyRaised
+from albums as a
+join tracks as t
+on a.AlbumId = t.AlbumId
+join invoice_items as it
+on t.TrackId = it.TrackId
+where a.Title = 'The Best Of Buddy Guy - The Millenium Collection';
+
+--Provide a query that shows all the Tracks in the Latin genre, also show what the Album name and Media types are for each track.
+select t.Name as Track
+,al.Title as Album
+,m.Name as MediaType
+from tracks as t
+join albums as al
+on t.AlbumId = al.AlbumId
+join media_types as m
+on t.MediaTypeId = m.MediaTypeId
+join genres as g
+on t.GenreId = g.GenreId
+where g.Name = 'Latin';
